@@ -1,25 +1,20 @@
 #!/usr/bin/perl -w -I/opt/eprints3/perl_lib
 #you may need to adjust the above line to point to your eprint perl_lib directory
 
-
-use Getopt::Long;
-use Pod::Usage;
+use warnings;
 use strict;
 
 use EPrints;
 
 my $repoid = shift @ARGV;
 die "release_stats_lock *repoid*\n" unless $repoid;
-print STDERR 'a';
 
 my $ep = EPrints->new();
 my $repo = $ep->repository( $repoid );
 die "Couldn't create repository object for $repoid\n" unless $repo;
-print STDERR 'b';
 
 my $handler = $repo->plugin( "Stats::Handler" );
 die "Coulnd't create IRStats 2 handler\n" unless $handler;
-print STDERR 'c';
 
 
 print "\n";
