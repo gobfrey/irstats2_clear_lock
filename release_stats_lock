@@ -1,4 +1,6 @@
 #!/usr/bin/perl -w -I/opt/eprints3/perl_lib
+#you may need to adjust the above line to point to your eprint perl_lib directory
+
 
 use Getopt::Long;
 use Pod::Usage;
