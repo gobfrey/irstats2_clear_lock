@@ -1,0 +1,36 @@
+#!/usr/bin/perl -w -I/opt/eprints/eprints3/perl_lib
+
+use Getopt::Long;
+use Pod::Usage;
+use strict;
+
+use EPrints;
+
+my $repoid = shift @ARGV;
+die "release_stats_lock *repoid*\n" unless $repoid;
+print STDERR 'a';
+
+my $ep = EPrints->new();
+my $repo = $ep->repository( $repoid );
+die "Couldn't create repository object for $repoid\n" unless $repo;
+print STDERR 'b';
+
+my $handler = $repo->plugin( "Stats::Handler" );
+die "Coulnd't create IRStats 2 handler\n" unless $handler;
+print STDERR 'c';
+
+
+print "\n";
+print "You are about to remove the IRStats 2 access lock.  This is not safe to do unless you are *sure* that IRStats2 previously terminated before the lock was released\n";
+my $sure = EPrints::Utils::get_input_confirm();
+
+die "Doing nothing -- please come back when you're sure you want to crack this nut with this hammer\n" unless $sure;
+
+print "Releasing lock\n";
+
+$handler->unlock_dataset('access');
+
+print "Lock Released\n";
+
+$repo->terminate;
+exit;
